@@ -25,6 +25,7 @@ class mainWindow(QWidget):
         super().__init__()
         self.initUI()
 
+    
     def initUI(self):
         #Setting up Fonts and buttons 
         QToolTip.setFont(QFont('Times', 10))
@@ -90,6 +91,8 @@ class mainWindow(QWidget):
         self.setWindowIcon(QIcon('web.png'))
         submitButton.move(250, 500)
         self.show()
+
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
