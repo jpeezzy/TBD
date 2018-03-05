@@ -16,30 +16,14 @@ import sys
 from PyQt5.QtWidgets import (QApplication, QToolTip,
                              QWidget, QLabel, QPushButton,
                              QHBoxLayout, QVBoxLayout, 
-                             QGridLayout, QLineEdit)
+                             QGridLayout, QLineEdit,
+                             QWidgetItem)
 from PyQt5.QtGui import (QIcon, QFont)
-
+import sql
 class mainWindow(QWidget):
-
-    def __init__(self):
-        super().__init__()
-        self.initUI()
-
-    
-    def initUI(self):
-        #Setting up Fonts and buttons 
-        QToolTip.setFont(QFont('Times', 10))
-        submitButton = QPushButton('Submit', self);
-        submitButton.resize( \
-            submitButton.sizeHint())
-
-        #Initialize Grid 
-        grid = QGridLayout()
-        grid.setSpacing(6)
-        self.setLayout(grid)
-        
-        information = ['First' , 'Middle',
-                       'Last', 'Client Relationship',
+    # Personal Informatiion page variables
+    information = ['First' , 'Middle',
+                'Last', 'Client Relationship',
                        'Phone', 
                        'Address', 
                         'Birth Date',
@@ -47,54 +31,100 @@ class mainWindow(QWidget):
                        'School',
                        'Grade'
                        ]
+    
+    def __init__(self):
+        super().__init__()
+        #Initializing all our widgets and lbales for our class
+        self.nameFirst = QLabel(self.information[0])
+        self.middleFirst = QLabel(self.information[1])
+        self.firstEdit = QLineEdit()
+        self.middleEdit = QLineEdit()
+        #send in buttons
+        self.submitButton = QPushButton('Submit', self);
+        self.submitButton.resize( \
+            self.submitButton.sizeHint())
 
+        #intialize grids for all pages 
+        self.gridUserInformation = QGridLayout()
+
+        #End initialization and begin the UI
+        self.initUI()
+
+    def initUI(self):
+        #Setting up Fonts
+        QToolTip.setFont(QFont('Times', 10))
+
+        #Initialize Grid 
+        self.gridUserInformation.setSpacing(6)
+        self.setLayout(self.gridUserInformation)
+    
+        #Call Function to add our initlalized widgets into the grid
+        self.addUserInfoWidget(self.gridUserInformation)
+
+        #window settings 
+        self.setGeometry(300, 300, 800, 600)
+        self.setWindowTitle('Icon')
+        self.setWindowIcon(QIcon('web.png'))
+        self.submitButton.move(250, 500)
+        self.show()
+
+#This function sets up the personal information of the 
+#current customer
+    def addUserInfoWidget(self, grid):
         #add information to grid
-        nameFirst = QLabel(information[0])
-        middleFirst = QLabel(information[1])
-        grid.addWidget(nameFirst, 1,0)
-        grid.addWidget(middleFirst, 1,2)
-        firstEdit = QLineEdit()
-        middleEdit = QLineEdit()
-        grid.addWidget(firstEdit, 1,1)
-        grid.addWidget(middleEdit, 1,3)
-        firstEdit.setReadOnly(True)
-        middleEdit.setReadOnly(True)
+        grid.addWidget(self.nameFirst, 1,0)
+        grid.addWidget(self.middleFirst, 1,2)
+        grid.addWidget(self.firstEdit, 1,1)
+        grid.addWidget(self.middleEdit, 1,3)
+        self.firstEdit.setReadOnly(True)
+        self.middleEdit.setReadOnly(True)
         positions = [(i,j) for i in range(6) for j in range(1)]
         for i in range(2,8):
-            if information[i] == '':
+            if self.information[i] == '':
                 continue
             editForm = QLineEdit()
-            InfoLabel = QLabel(information[i], self)
+            InfoLabel = QLabel(self.information[i], self)
             grid.addWidget(InfoLabel, i, 0)
             grid.addWidget(editForm, i, 1)
             editForm.setReadOnly(True)
 
-        grid.addWidget(submitButton, 8,1)
-        #Setting up Message Boxes and it's font
-        '''nameLabel = QLabel('Name', self)
-        nameLabel.setFont(QFont("Times", 10))
-        nameLabel.move(200,200)
+        #add buttons here
+        grid.addWidget(self.submitButton, 8,1)
+        return
+        #end add information 
 
-        hbox = QHBoxLayout()
-        hbox.addStretch(1)
-        hbox.addWidget(nameLabel)
-        hbox.addWidget(submitButton)
+    #Sends the information from the sql function
+    #To the screen on an empty user template. The list
+    #format is as follows:
+    #First, Middle, Last, Client relaitonship, phone, address,
+    #Birth Date, Client name
+    #def addInformation(self, First, middle, last, 
+    #                   clientRelation, PhoneNum, address,  
+    #                   birthDate, nameOfClient, school, grade):
 
-        vbox = QVBoxLayout()
-        vbox.addStretch(1)
-        vbox.addLayout(hbox)
-        self.setLayout(vbox)'''
+    def addInformation(self, infoList):
+        self.firstEdit.setText(infoList[0]);
+        self.middleEdit.setText(infoList[1]);
+        for i in range(2,8):
+            if self.information[i] == '':
+                continue
+            #Adds the other necessary information 
+            textEditTemp = self.gridUserInformation.itemAtPosition(i,1)
+            textEditTemp.widget().setText(infoList[i])
+            #editForm.setReadOnly(True)
 
-        #Set the parameters of the window
-        self.setGeometry(300, 300, 800, 600)
-        self.setWindowTitle('Icon')
-        self.setWindowIcon(QIcon('web.png'))
-        submitButton.move(250, 500)
-        self.show()
+
+    
 
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = mainWindow()
+    sqlperson = ["Justin", "dongil", "Lee", "bro",
+        "1234", "234234", "0330", "sa", "NOGALES",
+        "11"]
+    window.addInformation(sqlperson)
+    #sql.listFromSearch("Justin")
+
     sys.exit(app.exec_())
