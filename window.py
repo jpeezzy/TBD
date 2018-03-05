@@ -125,6 +125,7 @@ if __name__ == '__main__':
         "1234", "234234", "0330", "sa", "NOGALES",
         "11"]
     window.addInformation(sqlperson)
+    sql.getPersonalInformation("6268270307")
     #sql.listFromSearch("Justin")
 
     sys.exit(app.exec_())

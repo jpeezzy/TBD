@@ -30,17 +30,28 @@ def listFromSearch(Guardian):
     print('2):', all_rows)
     return all_rows
 
+#This function will get the entire row based on an identification (probably phone number) 
+def getPersonalInformation(ID):
+    c.execute('SELECT * \
+              FROM {tn} WHERE {cn}="{NUMBER}"'.\
+              format(tn = "Guardian", cn = "Phone", NUMBER = ID))
+    all_rows = c.fetchall()
+    print('2):', all_rows)
+    return all_rows
+    information
+    return information
+
 createTable()
 name = "Justin"
 clientRelation = "bro"
-phone = "6268270420"
+phone = "6268270307"
 address = "2602 east "
 DOB = "03/30/1997"
 ClientName = "SH"
 school = "SUZANNE"
 grade = "12"
-dataEntry(name, clientRelation, phone, address, \
-          DOB, ClientName, school, grade)
+#dataEntry(name, clientRelation, phone, address, \
+#          DOB, ClientName, school, grade)
 
 #listFromSearch("Justin")
 # 2) Value of a particular column for rows that match a certain value in column_1
