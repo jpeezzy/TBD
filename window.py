@@ -17,8 +17,9 @@ from PyQt5.QtWidgets import (QApplication, QToolTip,
                              QWidget, QLabel, QPushButton,
                              QHBoxLayout, QVBoxLayout, 
                              QGridLayout, QLineEdit,
-                             QWidgetItem)
+                             QWidgetItem, QTabWidget)
 from PyQt5.QtGui import (QIcon, QFont)
+from PyQt5.QtCore import pyqtSlot
 import sql
 class mainWindow(QWidget):
     # Personal Informatiion page variables
@@ -43,23 +44,40 @@ class mainWindow(QWidget):
         self.submitButton = QPushButton('Submit', self);
         self.submitButton.resize( \
                                  self.submitButton.sizeHint())
-
-        #intialize grids for all pages 
-        self.gridUserInformation = QGridLayout()
-
+        #initiaalzise tabs 
+        self.initTabs()
         #End initialization and begin the UI
         self.initUI()
+
+    def initTabs(self):
+        # Initialize tab screen
+        self.tabs = QTabWidget()
+        self.tab1 = QWidget()	
+        self.tab2 = QWidget()
+        self.tabs.resize(300,200) 
+ 
+        # Add tabs
+        self.tabs.addTab(self.tab1,"User Profile")
+        self.tabs.addTab(self.tab2,"Tab 2")
+
+        #set tab layout
+        self.tab1.layout = QGridLayout()
+        self.tab1.setLayout(self.tab1.layout)
+        self.addUserInfoWidget(self.tab1.layout)
+        self.tab1.layout.setSpacing(6)
 
     def initUI(self):
         #Setting up Fonts
         QToolTip.setFont(QFont('Times', 10))
 
-        #Initialize Grid 
-        self.gridUserInformation.setSpacing(6)
-        self.setLayout(self.gridUserInformation)
-
+        #Initialize Grid
+        #self.setLayout(self.gridUserInformation)
+        self.layout = QVBoxLayout(self)
+        self.layout.addWidget(self.tabs)
+        self.addUserInfoWidget(self.tab1.layout)
+        self.setLayout(self.layout)
         #Call Function to add our initlalized widgets into the grid
-        self.addUserInfoWidget(self.gridUserInformation)
+        #self.addUserInfoWidget(self.gridUserInformation)
 
         #window settings 
         self.setGeometry(300, 300, 800, 600)
@@ -71,6 +89,9 @@ class mainWindow(QWidget):
     #This function sets up the personal information of the 
     #current customer
     def addUserInfoWidget(self, grid):
+
+        #add tabs 
+        #grid.addWidget(self.tabs)
         #add information to grid
         grid.addWidget(self.nameFirst, 1,0)
         grid.addWidget(self.middleFirst, 1,2)
@@ -121,7 +142,8 @@ class mainWindow(QWidget):
     #Method: singUPinfo:
     #adds user information to the sql database from a gui
     def signUP(self):
-        self.addUserInfoWidget(self.gridUserInformation);
+        #self.addUserInfoWidget(self.gridUserInformation);
+        self.addUserInfoWidget(self.tab1.layout);
 
 
 
