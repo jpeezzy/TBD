@@ -40,31 +40,41 @@ class mainWindow(QWidget):
         self.middleFirst = QLabel(self.information[1])
         self.firstEdit = QLineEdit()
         self.middleEdit = QLineEdit()
-        #send in buttons
-        self.submitButton = QPushButton('Submit', self);
-        self.submitButton.resize( \
-                                 self.submitButton.sizeHint())
+        #initialize button
+        self.initButtonforUserInfo()
         #initiaalzise tabs 
         self.initTabs()
         #End initialization and begin the UI
         self.initUI()
 
+    def initButtonforUserInfo(self):
+        #send in buttons for tab1 (userinfo)
+        self.submitButton = QPushButton('Submit', self);
+        self.submitButton.resize( \
+                                 self.submitButton.sizeHint())
+        self.editButton = QPushButton('edit', self);
     def initTabs(self):
         # Initialize tab screen
         self.tabs = QTabWidget()
         self.tab1 = QWidget()	
         self.tab2 = QWidget()
+        self.tab3 = QWidget()
+        self.tab4 = QWidget()
+
         self.tabs.resize(300,200) 
  
-        # Add tabs
+        # Add tabs tab1 will be user profile,
         self.tabs.addTab(self.tab1,"User Profile")
         self.tabs.addTab(self.tab2,"Tab 2")
+        self.tabs.addTab(self.tab3,"Porgrams")
+        self.tabs.addTab(self.tab4,"History")
 
         #set tab layout
         self.tab1.layout = QGridLayout()
         self.tab1.setLayout(self.tab1.layout)
-        self.addUserInfoWidget(self.tab1.layout)
+        #self.addUserInfoWidget(self.tab1.layout)
         self.tab1.layout.setSpacing(6)
+
 
     def initUI(self):
         #Setting up Fonts
@@ -113,6 +123,7 @@ class mainWindow(QWidget):
 
             #add buttons here
             grid.addWidget(self.submitButton, 8,1)
+            grid.addWidget(self.editButton, 8,2)
         return
     #end add information 
 
@@ -134,7 +145,7 @@ class mainWindow(QWidget):
             if self.information[i] == '':
                 continue
             #Adds the other necessary information 
-            textEditTemp = self.gridUserInformation.itemAtPosition(i,1)
+            textEditTemp = self.tab1.layout.itemAtPosition(i,1)
             textEditTemp.widget().setText(infoList[i])
             textEditTemp.widget().setReadOnly(True)
 
@@ -156,8 +167,8 @@ if __name__ == '__main__':
     #window.addInformation(sqlperson)
     listTest = sql.getPersonalInformation("6268270307")
     #convert the list[0]tuple to juts a list
-    #window.addInformation(list(listTest[0]))
-    window.signUP()
+    window.addInformation(list(listTest[0]))
+    #window.signUP()
     #sql.listFromSearch("Justin")
 
     sys.exit(app.exec_())
