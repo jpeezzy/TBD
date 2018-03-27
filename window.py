@@ -1,16 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-"""
-ZetCode PyQt5 tutorial 
-
-In this example, we create a simple
-window in PyQt5.
-
-Author: Jan Bodnar
-Website: zetcode.com 
-Last edited: August 2017
-"""
+#Creator: Justin Lee
+#Simple database recorder using PYQT5
 
 import sys
 from PyQt5.QtWidgets import (QApplication, QToolTip,
@@ -19,7 +11,9 @@ from PyQt5.QtWidgets import (QApplication, QToolTip,
                              QGridLayout, QLineEdit,
                              QWidgetItem, QTabWidget)
 from PyQt5.QtGui import (QIcon, QFont)
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import (pyqtSlot, Qt)
+
+from searchBar import searchBar
 import sql
 class mainWindow(QWidget):
     # Personal Informatiion page variables
@@ -44,14 +38,17 @@ class mainWindow(QWidget):
         self.initButtonforUserInfo()
         #initiaalzise tabs 
         self.initTabs()
+        #setup Search bar
+        self.searchBarLabel = searchBar()
+        #self.searchBar = QLineEdit()
+        self.searchBarLabel.returnPressed.connect(self.searchBarLabel.searchForPeople)
         #End initialization and begin the UI
         self.initUI()
 
     def initButtonforUserInfo(self):
         #send in buttons for tab1 (userinfo)
         self.submitButton = QPushButton('Submit', self);
-        self.submitButton.resize( \
-                                 self.submitButton.sizeHint())
+        self.submitButton.resize(self.submitButton.sizeHint())
         self.editButton = QPushButton('edit', self);
     def initTabs(self):
         # Initialize tab screen
@@ -83,6 +80,8 @@ class mainWindow(QWidget):
         #Initialize Grid
         #self.setLayout(self.gridUserInformation)
         self.layout = QVBoxLayout(self)
+        #adding searchbar to widget as well as tabs
+        self.layout.addWidget(self.searchBarLabel, 0, Qt.AlignRight | Qt.AlignTop)
         self.layout.addWidget(self.tabs)
         self.addUserInfoWidget(self.tab1.layout)
         self.setLayout(self.layout)
@@ -99,9 +98,6 @@ class mainWindow(QWidget):
     #This function sets up the personal information of the 
     #current customer
     def addUserInfoWidget(self, grid):
-
-        #add tabs 
-        #grid.addWidget(self.tabs)
         #add information to grid
         grid.addWidget(self.nameFirst, 1,0)
         grid.addWidget(self.middleFirst, 1,2)
@@ -161,13 +157,14 @@ class mainWindow(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = mainWindow()
-    sqlperson = ["Justin", "dongil", "Lee", "bro",
+    '''sqlperson = ["Justin", "dongil", "Lee", "bro",
                  "1234", "234234", "0330", "sa", "NOGALES",
-                 "11"]
+                 "11"]'''
     #window.addInformation(sqlperson)
     listTest = sql.getPersonalInformation("6268270307")
     #convert the list[0]tuple to juts a list
     window.addInformation(list(listTest[0]))
+    #print(sql.listFromSearch("Justin"))
     #window.signUP()
     #sql.listFromSearch("Justin")
 

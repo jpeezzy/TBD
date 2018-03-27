@@ -27,7 +27,7 @@ def listFromSearch(Guardian):
                      col4="Address", col5="ClientName", 
                      tn="Guardian", cn="name", Name = Guardian))
     all_rows = c.fetchall()
-    print('2):', all_rows)
+    #print('2):', all_rows)
     return all_rows
 
 #This function will get the entire row based on an identification (probably phone number) 
@@ -36,7 +36,7 @@ def getPersonalInformation(ID):
               FROM {tn} WHERE {cn}="{NUMBER}"'.\
               format(tn = "Guardian", cn = "Phone", NUMBER = ID))
     all_rows = c.fetchall()
-    print('2):', all_rows)
+    #print('2):', all_rows)
     return all_rows
     information
     return information
