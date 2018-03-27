@@ -13,8 +13,11 @@ from PyQt5.QtWidgets import (QApplication, QToolTip,
 from PyQt5.QtGui import (QIcon, QFont)
 from PyQt5.QtCore import (pyqtSlot, Qt)
 
+from buttons import buttons
 from searchBar import searchBar
 import sql
+from tabs import tabs
+
 class mainWindow(QWidget):
     # Personal Informatiion page variables
     information = ['First' , 'Middle',
@@ -35,42 +38,13 @@ class mainWindow(QWidget):
         self.firstEdit = QLineEdit()
         self.middleEdit = QLineEdit()
         #initialize button
-        self.initButtonforUserInfo()
-        #initiaalzise tabs 
-        self.initTabs()
+        self.userButtons = buttons() 
+        #initiaalzise tabs
+        self.tabs = tabs()
         #setup Search bar
         self.searchBarLabel = searchBar()
-        #self.searchBar = QLineEdit()
-        self.searchBarLabel.returnPressed.connect(self.searchBarLabel.searchForPeople)
         #End initialization and begin the UI
         self.initUI()
-
-    def initButtonforUserInfo(self):
-        #send in buttons for tab1 (userinfo)
-        self.submitButton = QPushButton('Submit', self);
-        self.submitButton.resize(self.submitButton.sizeHint())
-        self.editButton = QPushButton('edit', self);
-    def initTabs(self):
-        # Initialize tab screen
-        self.tabs = QTabWidget()
-        self.tab1 = QWidget()	
-        self.tab2 = QWidget()
-        self.tab3 = QWidget()
-        self.tab4 = QWidget()
-
-        self.tabs.resize(300,200) 
- 
-        # Add tabs tab1 will be user profile,
-        self.tabs.addTab(self.tab1,"User Profile")
-        self.tabs.addTab(self.tab2,"Tab 2")
-        self.tabs.addTab(self.tab3,"Porgrams")
-        self.tabs.addTab(self.tab4,"History")
-
-        #set tab layout
-        self.tab1.layout = QGridLayout()
-        self.tab1.setLayout(self.tab1.layout)
-        #self.addUserInfoWidget(self.tab1.layout)
-        self.tab1.layout.setSpacing(6)
 
 
     def initUI(self):
@@ -83,7 +57,7 @@ class mainWindow(QWidget):
         #adding searchbar to widget as well as tabs
         self.layout.addWidget(self.searchBarLabel, 0, Qt.AlignRight | Qt.AlignTop)
         self.layout.addWidget(self.tabs)
-        self.addUserInfoWidget(self.tab1.layout)
+        self.addUserInfoWidget(self.tabs.tab1.layout)
         self.setLayout(self.layout)
         #Call Function to add our initlalized widgets into the grid
         #self.addUserInfoWidget(self.gridUserInformation)
@@ -92,7 +66,7 @@ class mainWindow(QWidget):
         self.setGeometry(300, 300, 800, 600)
         self.setWindowTitle('Icon')
         self.setWindowIcon(QIcon('web.png'))
-        self.submitButton.move(250, 500)
+        self.userButtons.submitButton.move(250, 500)
         self.show()
 
     #This function sets up the personal information of the 
@@ -118,8 +92,8 @@ class mainWindow(QWidget):
             #editForm.setReadOnly(False)
 
             #add buttons here
-            grid.addWidget(self.submitButton, 8,1)
-            grid.addWidget(self.editButton, 8,2)
+            grid.addWidget(self.userButtons.submitButton, 8,1)
+            grid.addWidget(self.userButtons.editButton, 8,2)
         return
     #end add information 
 
@@ -141,7 +115,7 @@ class mainWindow(QWidget):
             if self.information[i] == '':
                 continue
             #Adds the other necessary information 
-            textEditTemp = self.tab1.layout.itemAtPosition(i,1)
+            textEditTemp = self.tabs.tab1.layout.itemAtPosition(i,1)
             textEditTemp.widget().setText(infoList[i])
             textEditTemp.widget().setReadOnly(True)
 
