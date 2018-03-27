@@ -124,7 +124,7 @@ class mainWindow(QWidget):
     #adds user information to the sql database from a gui
     def signUP(self):
         #self.addUserInfoWidget(self.gridUserInformation);
-        self.addUserInfoWidget(self.tab1.layout);
+        self.addUserInfoWidget(self.tabs.tab1.layout);
 
 
 
@@ -137,9 +137,9 @@ if __name__ == '__main__':
     #window.addInformation(sqlperson)
     listTest = sql.getPersonalInformation("6268270307")
     #convert the list[0]tuple to juts a list
-    window.addInformation(list(listTest[0]))
+    #window.addInformation(list(listTest[0]))
     #print(sql.listFromSearch("Justin"))
-    #window.signUP()
+    window.signUP()
     #sql.listFromSearch("Justin")
 
     sys.exit(app.exec_())
