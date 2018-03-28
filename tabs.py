@@ -10,6 +10,7 @@ class tabs(QTabWidget):
         self.tab2 = QWidget()
         self.tab3 = QWidget()
         self.tab4 = QWidget()
+        self.tab5 = QWidget()
 
         self.resize(300,200) 
  
@@ -18,8 +19,13 @@ class tabs(QTabWidget):
         self.addTab(self.tab2,"Tab 2")
         self.addTab(self.tab3,"Programs")
         self.addTab(self.tab4,"History")
+        self.addTab(self.tab5,"SearchResult")
 
         #set tab layout
         self.tab1.layout = QGridLayout()
         self.tab1.setLayout(self.tab1.layout)
         self.tab1.layout.setSpacing(6)
+        #searchTab
+        self.tab5.layout = QGridLayout()
+        self.tab5.setLayout(self.tab5.layout)
+        self.tab5.layout.setSpacing(6)

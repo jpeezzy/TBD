@@ -43,9 +43,21 @@ class mainWindow(QWidget):
         self.tabs = tabs()
         #setup Search bar
         self.searchBarLabel = searchBar()
+        self.searchBarLabel.returnPressed.connect(self.searchForPeople)
         #End initialization and begin the UI
         self.initUI()
 
+
+    def searchForPeople(self):
+        _searchTabIndex = 4
+        #go to the search tab
+        self.tabs.setCurrentIndex(_searchTabIndex)
+        #Get the list of people
+        _list = sql.listFromSearch(self.searchBarLabel.displayText())
+        #in searchBar.py searches for the people and returns a QTableWidget
+        self.searchBarLabel.searchForPeople(_list, self.tabs.tab5)
+        #After iterate through the list we have
+        return _list
 
     def initUI(self):
         #Setting up Fonts
