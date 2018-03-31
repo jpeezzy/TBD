@@ -76,7 +76,7 @@ class mainWindow(QWidget):
 
         #window settings 
         self.setGeometry(300, 300, 800, 600)
-        self.setWindowTitle('Icon')
+        self.setWindowTitle('Toph DataBase')
         self.setWindowIcon(QIcon('web.png'))
         self.userButtons.submitButton.move(250, 500)
         self.show()
@@ -141,6 +141,9 @@ class mainWindow(QWidget):
 
 
 if __name__ == '__main__':
+    #initializng testbench
+    sql.testBench()
+    #done initializing testbench
     app = QApplication(sys.argv)
     window = mainWindow()
     '''sqlperson = ["Justin", "dongil", "Lee", "bro",
