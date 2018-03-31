@@ -23,10 +23,10 @@ def dataEntry(fname, middle, last, clientRelation, PHONE, ADDRESS, \
 # output : list of all people with the same name, but also show their kid
 # looking after in the program as well as their birthdate. 
 def listFromSearch(Guardian): 
-    c.execute('SELECT {col1},{col2},{col3},{col4},{col5},{col6},{col7}\
+    c.execute('SELECT {col1},{col2},{col3},{col4},{col5},{col6}\
               FROM {tn} WHERE {cn}="{Name}"'.\
-              format(col1 = "fname",col2 = "middle", col3 = "last", col4="DOB", col5= "Phone", 
-                     col6="Address", col7="ClientName", 
+              format(col1 = "fname",col2 = "last", col3 = "Phone", col4="clientRelation", 
+                     col5= "ClientName", col6 = "school", 
                      tn="Guardian", cn="fname", Name = Guardian))
     all_rows = c.fetchall()
     #print('2):', all_rows)
